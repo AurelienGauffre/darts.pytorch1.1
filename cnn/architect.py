@@ -17,7 +17,8 @@ class Architect(object):
     self.criterion = criterion
     self.optimizer = torch.optim.Adam(self.model.arch_parameters(),
         lr=args.arch_learning_rate, betas=(0.5, 0.999), weight_decay=args.arch_weight_decay)
-    self.optimizer = nn.DataParallel(self.optimizer, device_ids=[0,1])
+
+    #self.optimizer = nn.DataParallel(self.optimizer, device_ids=[0]) #TOCHANGE le 0,1 en adaptable en fonction des params
 
   def _compute_unrolled_model(self, input, target, eta, network_optimizer):
     logits = self.model(input)

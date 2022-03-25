@@ -39,7 +39,7 @@ class Architect(object):
         self._backward_step_unrolled(input_train, target_train, input_valid, target_valid, eta, network_optimizer)
     else:
         self._backward_step(input_valid, target_valid)
-    self.optimizer.module.step()
+    self.optimizer.step() #CHANGE
 
   def _backward_step(self, input_valid, target_valid):
     logits = self.model(input_valid)

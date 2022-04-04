@@ -33,13 +33,13 @@ class Cell(nn.Module):
     else:
       self.preprocess0 = ReLUConvBN(C_prev_prev, C, 1, 1, 0, affine=False)
     self.preprocess1 = ReLUConvBN(C_prev, C, 1, 1, 0, affine=False)
-    self._steps = steps
+    self._steps = steps #number of mixed operation inside a cell (in addition to s0 and s1)
     self._multiplier = multiplier
 
     self._ops = nn.ModuleList()
     self._bns = nn.ModuleList()
-    for i in range(self._steps):
-      for j in range(2+i):
+    for i in range(self._steps): # il y a _steps nodes dans une cellule
+      for j in range(2+i): #chacun d'entre eux est relié a tous ceux d'avant plus les 2 premieres sorties s0 et s1
         stride = 2 if reduction and j < 2 else 1
         op = MixedOp(C, stride)
         self._ops.append(op)

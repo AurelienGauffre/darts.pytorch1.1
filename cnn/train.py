@@ -12,6 +12,7 @@ import genotypes
 import torch.utils
 import torchvision.datasets as dset
 import torch.backends.cudnn as cudnn
+from torchsummary import summary
 
 import wandb
 from model import NetworkCIFAR as Network
@@ -77,7 +78,8 @@ def main():
 
     genotype = eval("genotypes.%s" % args.arch)
     model = Network(args.init_channels, CIFAR_CLASSES, args.layers, args.auxiliary, genotype)
-    model = model.cuda()
+    model = confis.cuda()
+    print('NUMBER OF PARAMETERS:', sum(p.numel() for p in model.parameters()))
 
     if len(gpus) > 1:
         print("True")
@@ -121,10 +123,10 @@ def main():
             valid_acc, valid_obj = infer(valid_queue, model, criterion)
         logging.info('valid_acc %f', valid_acc)
         main_log_dic = {'epoch': epoch + 1,
- #                       'vanilla train loss': train_loss,
-                        'vanilla train accuracy': train_acc,
-                        'vanilla val loss': valid_acc,
-  #                      'vanilla val accuracy': test_acc,
+                        #                       'vanilla train loss': train_loss,
+                        'vanilla train accuracy': train_acc/100,
+                        # 'vanilla val loss': valid_acc,
+                        'vanilla val accuracy': valid_acc/100,
                         }
         wandb.log(main_log_dic)
         utils.save(model, os.path.join(args.save, 'weights.pt'))

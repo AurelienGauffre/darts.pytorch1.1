@@ -12,8 +12,6 @@ import genotypes
 import torch.utils
 import torchvision.datasets as dset
 import torch.backends.cudnn as cudnn
-from torchsummary import summary
-
 import wandb
 from model import NetworkCIFAR as Network
 
@@ -78,7 +76,7 @@ def main():
 
     genotype = eval("genotypes.%s" % args.arch)
     model = Network(args.init_channels, CIFAR_CLASSES, args.layers, args.auxiliary, genotype)
-    model = confis.cuda()
+    model = model.cuda()
     print('NUMBER OF PARAMETERS:', sum(p.numel() for p in model.parameters()))
 
     if len(gpus) > 1:

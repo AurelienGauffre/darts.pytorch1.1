@@ -97,8 +97,18 @@ def main():
     # optimizer = nn.DataParallel(optimizer, device_ids=gpus) # HAS CHANGED
 
     train_transform, valid_transform = utils._data_transforms_cifar10(args)
-    train_data = dset.CIFAR10(root=args.data, train=True, download=True, transform=train_transform)
-    valid_data = dset.CIFAR10(root=args.data, train=False, download=True, transform=valid_transform)
+    # train_data = dset.CIFAR10(root=args.data, train=True, download=True, transform=train_transform) #TOCHANGE
+    # valid_data = dset.CIFAR10(root=args.data, train=False, download=True, transform=valid_transform)
+    train_data = dset.ImageFolder(root=os.path.join('~/datasets', 'cifar10', 'train'),
+
+
+                                   transform=train_transform,
+                                   )
+
+    valid_data = dset.ImageFolder(root=os.path.join('~/datasets', 'cifar10', 'val'),
+
+                                        transform=valid_transform,
+                                        )
 
     train_queue = torch.utils.data.DataLoader(
         train_data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=2)
@@ -143,6 +153,7 @@ def train(train_queue, model, criterion, optimizer):
         optimizer.zero_grad()
         logits, logits_aux = model(input)
         loss = criterion(logits, target)
+        print(loss)
         if args.auxiliary:
             loss_aux = criterion(logits_aux, target)
             loss += args.auxiliary_weight * loss_aux

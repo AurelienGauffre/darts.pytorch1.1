@@ -1,3 +1,4 @@
+# oarsub -l /host=1/gpu=1,walltime=10:0:0 '/home/polaris/gauffrea/darts.pytorch1.1/config1.sh'
 import os
 import sys
 import time
@@ -53,7 +54,7 @@ CIFAR_CLASSES = 10
 
 def main():
     wandb.init(project='NAS-SSL-MTL', entity='aureliengauffre',
-               group='DARTS')
+               group='Debug')
 
     wandb.run.name = 'Baseline DartsTrain (with cifar10im)'
 

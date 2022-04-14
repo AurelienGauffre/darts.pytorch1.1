@@ -35,7 +35,9 @@ parser.add_argument('--cutout_length', type=int, default=16, help='cutout length
 parser.add_argument('--drop_path_prob', type=float, default=0.2, help='drop path probability')
 parser.add_argument('--save', type=str, default='EXP', help='experiment name')
 parser.add_argument('--seed', type=int, default=0, help='random seed')
-parser.add_argument('--arch', type=str, default='DARTS', help='which architecture to use')
+
+parser.add_argument('--arch', type=str, default='sup1', help='which architecture to use')
+
 parser.add_argument('--grad_clip', type=float, default=5, help='gradient clipping')
 args = parser.parse_args()
 
@@ -56,7 +58,7 @@ def main():
     wandb.init(project='NAS-SSL-MTL', entity='aureliengauffre',
                group='DARTS_2')
 
-    wandb.run.name = 'Baseline Darts 150 epochs (with cifar10im)'
+    wandb.run.name = 'Baseline Darts 600 epochs (archi éclatée 1%)'
 
     if not torch.cuda.is_available():
         logging.info('no gpu device available')

@@ -54,9 +54,9 @@ CIFAR_CLASSES = 10
 
 def main():
     wandb.init(project='NAS-SSL-MTL', entity='aureliengauffre',
-               group='Debug')
+               group='DARTS_2')
 
-    wandb.run.name = 'Baseline DartsTrain (with cifar10im)'
+    wandb.run.name = 'Baseline Darts (with cifar10im)'
 
     if not torch.cuda.is_available():
         logging.info('no gpu device available')
@@ -131,7 +131,7 @@ def main():
         with torch.no_grad():
             valid_acc, valid_obj = infer(valid_queue, model, criterion)
         logging.info('valid_acc %f', valid_acc)
-        main_log_dic = {'epoch': epoch + 1,
+        main_log_dic = {'epoch': epoch,
                         #                       'vanilla train loss': train_loss,
                         'vanilla train accuracy': train_acc/100,
                         # 'vanilla val loss': valid_acc,
